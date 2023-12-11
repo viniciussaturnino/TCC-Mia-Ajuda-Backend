@@ -1,17 +1,13 @@
-/* eslint-disable no-console */
-const express = require("express");
-const cors = require("cors");
+const app = require("./src/modules/main/config/express");
 
-require("dotenv").config();
+const { API_PORT } = require("./src/modules/main/config/vars");
 
-const databaseConnect = require("./src/config/database");
-
-const app = express();
-
-app.use(cors());
+const databaseConnect = require("./src/modules/main/config/database");
 
 databaseConnect();
 
-app.listen(process.env.API_PORT || 8000, () =>
-  console.log(`Servidor rodando na porta ${process.env.API_PORT || 8000}!`),
+app.listen(API_PORT, () =>
+  console.log(`Servidor rodando na porta ${API_PORT}!`),
 );
+
+module.exports = app;

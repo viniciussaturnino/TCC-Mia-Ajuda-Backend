@@ -1,0 +1,19 @@
+version: '3'
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+
+  tcc-mia-ajuda-backend:
+    container_name: tcc-mia-ajuda-backend
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+      - DATABASE_URL=mongodb://mongo/miaAjudaDB
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongo
