@@ -10,4 +10,5 @@ module.exports = {
   NODE_ENV: process.env.NODE_ENV,
   API_PORT: process.env.API_PORT || 3000,
   DATABASE_URL: process.env.DATABASE_URL,
+  FIREBASE_CONFIG_BASE_64: process.env.FIREBASE_CONFIG_BASE_64,
 };

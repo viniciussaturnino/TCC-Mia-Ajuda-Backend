@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   mongo:
     container_name: mongo
@@ -10,10 +10,11 @@ services:
       - PORT=3000
       - NODE_ENV=development
       - DATABASE_URL=mongodb://mongo/miaAjudaDB
+      - FIREBASE_CONFIG_BASE_64=
     build: .
     volumes:
       - .:/app
     ports:
-      - '3000:3000'
+      - "3000:3000"
     depends_on:
       - mongo
