@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 const {
   healthCheck,
-} = require("../../modules/health/infra/controllers/HealthController");
-const HealthService = require("../../modules/health/app/HealthService");
+} = require("../../src/modules/health/infra/controllers/HealthController");
+const HealthService = require("../../src/modules/health/app/HealthService");
 
-jest.mock("../../modules/health/app/HealthService");
+jest.mock("../../src/modules/health/app/HealthService");
 
 describe("healthCheck Controller", () => {
   test("should return health data with status 200", async () => {
