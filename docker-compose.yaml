@@ -10,7 +10,6 @@ services:
       - PORT=3000
       - NODE_ENV=development
       - DATABASE_URL=mongodb://mongo/miaAjudaDB
-      - FIREBASE_CONFIG_BASE_64=
     build: .
     volumes:
       - .:/app
