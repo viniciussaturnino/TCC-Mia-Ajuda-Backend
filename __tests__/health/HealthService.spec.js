@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const HealthService = require("../../modules/health/app/HealthService");
+const HealthService = require("../../src/modules/health/app/HealthService");
 
 describe("HealthService", () => {
   test("getHealthCheck should return health data", async () => {
