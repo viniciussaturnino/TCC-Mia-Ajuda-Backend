@@ -49,7 +49,7 @@ class UserService {
 
   async getUsers() {
     try {
-      const result = this.userRepository.get();
+      const result = await this.userRepository.get();
       return result;
     } catch (err) {
       throw err;
