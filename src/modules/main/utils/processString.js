@@ -1,11 +1,9 @@
 const formatCpf = (cpf) => {
-  // TDD: to be implemented.
-  return null;
+  return cpf.replace(/[-.]/g, "");
 };
 
 const formatCnpj = (cnpj) => {
-  // TDD: to be implemented.
-  return null;
+  return cnpj.replace(/([^0-9])+/g, "");
 };
 
 module.exports = {

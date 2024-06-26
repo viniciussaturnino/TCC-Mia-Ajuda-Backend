@@ -7,53 +7,76 @@ class UserRepository extends BaseRepository {
   }
 
   async create(user) {
-    // TDD: to be implemented.
-    return null;
+    const result = await super.$save(user);
+    return result;
   }
 
   async get() {
-    // TDD: to be implemented.
-    return null;
+    const result = await super.$get();
+    return result;
   }
 
   async getById(id) {
-    // TDD: to be implemented.
-    return null;
+    const result = await super.$getById(id);
+    return result;
   }
 
   async getUserByEmail(email) {
-    // TDD: to be implemented.
-    return null;
+    const result = await super.$list({ email });
+    return result[0];
   }
 
   async update(user) {
-    // TDD: to be implemented.
-    return null;
+    const result = await super.$update(user);
+    return result;
   }
 
   async checkUserExistence(email) {
-    // TDD: to be implemented.
-    return null;
+    const users = await super.$listAggregate([
+      {
+        $match: {
+          email: email,
+        },
+      },
+      {
+        $count: "id",
+      },
+    ]);
+
+    let result = 0;
+
+    if (users[0] && users[0].id > 0) {
+      result = users[0].id;
+    }
+
+    return result;
   }
 
   async removeUser({ id, email }) {
-    // TDD: to be implemented.
-    return null;
+    const query = {};
+    query._id = id;
+    query.email = email;
+
+    await super.$destroy(query);
   }
 
   async getUsersWithDevice({ query = {}, fields = "" }) {
-    // TDD: to be implemented.
-    return null;
+    const users = await super.$list(
+      { ...query, deviceId: { $ne: null } },
+      fields
+    );
+
+    return users;
   }
 
   async listUsers({ query = {}, fields = "" }) {
-    // TDD: to be implemented.
-    return null;
+    const users = await super.$list(query, fields);
+    return users;
   }
 
   async findOneUserWithProjection(query, projection) {
-    // TDD: to be implemented.
-    return null;
+    const user = await super.$findOne(query, projection);
+    return user;
   }
 }
 
