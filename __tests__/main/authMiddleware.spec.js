@@ -2,7 +2,7 @@
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 const supertest = require("supertest");
-const verifyToken = require("../../src/modules/user/middlewares/authMiddleware");
+const verifyToken = require("../../src/modules/main/middlewares/authMiddleware");
 const UserRepository = require("../../src/modules/user/domain/repositories/UserRepository");
 const { JWT_SECRET } = require("../../src/modules/main/config/vars");
 
