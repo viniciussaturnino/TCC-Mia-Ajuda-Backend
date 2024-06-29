@@ -1,6 +1,8 @@
 const getLocation = (obj) => {
-  // TDD: to be implemented
-  return null;
+  if (obj?.location) {
+    return obj?.location?.coordinates;
+  }
+  return obj?.user?.location?.coordinates;
 };
 
 module.exports = { getLocation };

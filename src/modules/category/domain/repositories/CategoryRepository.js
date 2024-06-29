@@ -7,13 +7,13 @@ class CategoryRepository extends BaseRepository {
   }
 
   async getById(id) {
-    // TDD: to be implemented
-    return null;
+    const result = await super.$getById(id);
+    return result;
   }
 
   async list() {
-    // TDD: to be implemented
-    return null;
+    const result = await super.$get();
+    return result;
   }
 }
 

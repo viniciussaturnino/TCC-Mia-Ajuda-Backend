@@ -7,13 +7,22 @@ class CategoryService {
   }
 
   async getCategoryById(id) {
-    // TDD: to be implemented
-    return null;
+    const Category = await this.categoryRepository.getById(id);
+
+    if (!Category) {
+      throw new Error("Category not found");
+    }
+
+    return Category;
   }
 
   async getCategoryList() {
-    // TDD: to be implemented
-    return null;
+    const Categorylist = await this.categoryRepository.list();
+    if (!Categorylist) {
+      throw new Error("Category not found");
+    }
+
+    return Categorylist;
   }
 }
 

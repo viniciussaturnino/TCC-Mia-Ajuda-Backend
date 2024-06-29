@@ -6,13 +6,27 @@ class CategoryController {
   }
 
   async getCategoryById(req, res, next) {
-    // TDD: to be implemented
-    return null;
+    const { id } = req.params;
+
+    try {
+      const result = await this.categoryService.getCategoryById(id);
+      res.status(200).json(result);
+      next();
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+      next();
+    }
   }
 
   async getCategoryList(req, res, next) {
-    // TDD: to be implemented
-    return null;
+    try {
+      const result = await this.categoryService.getCategoryList();
+      res.status(200).json(result);
+      next();
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+      next();
+    }
   }
 }
 

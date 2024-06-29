@@ -1,5 +1,8 @@
+const helpStatusEnum = require("../infra/enums/helpStatusEnum");
 const Help = require("../domain/Help");
 const User = require("../../user/domain/User");
+
+const MAXIMUM_HELP_REQUESTS = 15;
 
 class HelpService {
   constructor() {
@@ -11,38 +14,86 @@ class HelpService {
   }
 
   async createHelp(data) {
-    // TDD: to be implemented
-    return null;
+    const countHelp = await this.helpRepository.countDocuments(data.ownerId);
+    if (countHelp >= MAXIMUM_HELP_REQUESTS) {
+      throw new Error(
+        `User has reached the maximum number of help requests: ${MAXIMUM_HELP_REQUESTS}`
+      );
+    }
+
+    const createdHelp = await this.helpRepository.create(data);
+
+    return createdHelp;
   }
 
   async getHelpById(id) {
-    // TDD: to be implemented
-    return null;
+    const help = await this.helpRepository.getById(id);
+
+    if (!help) {
+      throw new Error("Help request not found");
+    }
+
+    return help;
   }
 
   async getUserHelps(userId) {
-    // TDD: to be implemented
-    return null;
+    const helps = await this.helpRepository.getByUserId(userId);
+
+    if (!helps) {
+      throw new Error("User doesn't have any help requests");
+    }
+
+    return helps;
   }
 
   async getHelpWithAggregationById(id) {
-    // TDD: to be implemented
-    return null;
+    const help = await this.helpRepository.getByIdWithAggregation(id);
+
+    if (!help) {
+      throw new Error("Help request not found");
+    }
+
+    return help;
   }
 
   async getWaitingList(coords, ownerId, categoryArray) {
-    // TDD: to be implemented
-    return null;
+    const helplist = await this.helpRepository.getWaitingList(
+      coords,
+      ownerId,
+      categoryArray
+    );
+    if (!helplist || helplist?.length === 0) {
+      throw new Error("Help requests not found in your distance range");
+    }
+
+    return helplist;
   }
 
   async deactivateHelp(id) {
-    // TDD: to be implemented
-    return null;
+    let help = await this.getHelpById(id);
+
+    help.active = false;
+
+    await this.helpRepository.update(help);
+
+    return help;
   }
 
   async getHelpListByStatus({ userId, statusList }) {
-    // TDD: to be implemented
-    return null;
+    const checkHelpStatusExistence = statusList.filter(
+      (item) => !Object.values(helpStatusEnum).includes(item)
+    );
+
+    if (checkHelpStatusExistence.length > 0) {
+      throw new Error("Invalid status");
+    }
+
+    const helpList = await this.helpRepository.getHelpListByStatus(
+      userId,
+      statusList
+    );
+
+    return helpList;
   }
 }
 
