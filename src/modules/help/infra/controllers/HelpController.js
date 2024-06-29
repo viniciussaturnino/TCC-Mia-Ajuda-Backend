@@ -23,8 +23,14 @@ class HelpController {
   }
 
   async getHelps(_req, res, next) {
-    // TDD: to be implemented
-    return null;
+    try {
+      const result = await this.helpService.getHelps();
+      res.status(200).json(result);
+      next();
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+      next();
+    }
   }
 
   async getUserHelps(req, res, next) {
@@ -127,23 +133,62 @@ class HelpController {
   }
 
   async addPossibleHelpers(req, res, next) {
-    // TDD: to be implemented
-    return null;
+    const { helpId, helperId } = req.body;
+
+    try {
+      const result = await this.helpService.addPossibleHelpers(
+        helpId,
+        helperId
+      );
+
+      res.status(201).json(result);
+      next();
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+      next();
+    }
   }
 
   async chooseHelper(req, res, next) {
-    // TDD: to be implemented
-    return null;
+    const { helpId, helperId } = req.body;
+
+    try {
+      const result = await this.helpService.chooseHelper(helpId, helperId);
+      res.status(201).json(result);
+      next();
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+      next();
+    }
   }
 
   async helperConfirmation(req, res, next) {
-    // TDD: to be implemented
-    return null;
+    const { helpId, helperId } = req.body;
+
+    try {
+      const result = await this.helpService.helperConfirmation(
+        helpId,
+        helperId
+      );
+      res.status(200).json(result);
+      next();
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+      next();
+    }
   }
 
   async ownerConfirmation(req, res, next) {
-    // TDD: to be implemented
-    return null;
+    const { helpId, ownerId } = req.body;
+
+    try {
+      const result = await this.helpService.ownerConfirmation(helpId, ownerId);
+      res.status(200).json(result);
+      next();
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+      next();
+    }
   }
 }
 

@@ -57,8 +57,12 @@ class HelpService {
   }
 
   async getHelps() {
-    // TDD: to be implemented
-    return null;
+    try {
+      const result = await this.helpRepository.get();
+      return result;
+    } catch (err) {
+      throw err;
+    }
   }
 
   async getWaitingList(coords, ownerId, categoryArray) {
@@ -102,23 +106,102 @@ class HelpService {
   }
 
   async addPossibleHelpers(helpId, helperId) {
-    // TDD: to be implemented
-    return null;
+    const help = await this.getHelpById(helpId);
+
+    if (helperId === help.ownerId) {
+      throw new Error("You can't be a helper in your own help request");
+    }
+    if (help.helperId) {
+      throw new Error("Help request already has a helper");
+    }
+    const isUserAlreadyHelper = help?.possibleHelpers?.includes(helperId);
+
+    if (isUserAlreadyHelper) {
+      throw new Error("User is already a possible helper");
+    }
+
+    const helperUser = await this.userRepository.getById(helperId);
+    if (!helperUser) throw new Error("Helper user not found");
+
+    help.possibleHelpers.push(helperId);
+
+    await this.helpRepository.update(help);
+
+    return help;
   }
 
   async chooseHelper(helpId, helperId) {
-    // TDD: to be implemented
-    return null;
+    const help = await this.getHelpById(helpId);
+
+    if (help.helperId) {
+      throw new Error("Help request already has a helper");
+    }
+
+    const isUserPossibleHelper = help.possibleHelpers.includes(helperId);
+    if (!isUserPossibleHelper) {
+      throw new Error("Chosen helper is not a possible helper");
+    }
+
+    const helperUser = await this.userRepository.getById(helperId);
+    if (!helperUser) throw new Error("Helper user not found");
+
+    help.helperId = helperId;
+    help.status = "on_going";
+    help.possibleHelpers = [];
+
+    await this.helpRepository.update(help);
+
+    return help;
   }
 
   async helperConfirmation(helpId, helperId) {
-    // TDD: to be implemented
-    return null;
+    const help = await this.getHelpById(helpId);
+
+    if (help.helperId.toString() !== helperId.toString()) {
+      throw new Error("User is not the helper of this help request");
+    }
+    if (help.status === helpStatusEnum.HELPER_FINISHED) {
+      throw new Error("User has already finished this help request");
+    }
+    if (help.status === helpStatusEnum.FINISHED) {
+      throw new Error("Help request is already finished");
+    }
+
+    if (help.status === helpStatusEnum.OWNER_FINISHED) {
+      help.status = helpStatusEnum.FINISHED;
+      help.active = false;
+    } else {
+      help.status = helpStatusEnum.HELPER_FINISHED;
+    }
+
+    await this.helpRepository.update(help);
+
+    return help;
   }
 
   async ownerConfirmation(helpId, ownerId) {
-    // TDD: to be implemented
-    return null;
+    const help = await this.getHelpById(helpId);
+
+    if (help.ownerId.toString() !== ownerId.toString()) {
+      throw new Error("User is not the owner of this help request");
+    }
+    if (help.status === helpStatusEnum.OWNER_FINISHED) {
+      throw new Error("Usuário já confirmou a finalização da ajuda");
+    }
+    if (help.status === helpStatusEnum.FINISHED) {
+      throw new Error("Essa ajuda já foi finalizada");
+    }
+
+    if (help.status === helpStatusEnum.HELPER_FINISHED) {
+      help.status = helpStatusEnum.FINISHED;
+      help.active = false;
+    } else {
+      help.status = helpStatusEnum.OWNER_FINISHED;
+    }
+
+    await this.helpRepository.update(help);
+
+    return help;
   }
 }
 
