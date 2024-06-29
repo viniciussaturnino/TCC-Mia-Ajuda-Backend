@@ -27,7 +27,8 @@ class UserService {
       if (data.password.length < 8 || data.password.length > 14) {
         throw new Error("Invalid password.");
       }
-
+      
+      
       const saltRounds = await bcrypt.genSalt(parseInt(PASSWORD_SALT));
       const hashedPassword = await bcrypt.hash(data?.password, saltRounds);
 
