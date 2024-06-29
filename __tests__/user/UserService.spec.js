@@ -99,7 +99,7 @@ describe("UserService", () => {
       expect(userRepositoryMock.checkUserExistence).toHaveBeenCalledWith(
         userData.email
       );
-      expect(bcrypt.genSalt).toHaveBeenCalledWith(PASSWORD_SALT);
+      expect(bcrypt.genSalt).toHaveBeenCalledWith(parseInt(PASSWORD_SALT));
       expect(bcrypt.hash).toHaveBeenCalledWith(mockPassword, "salt");
       expect(formatCpf).toHaveBeenCalledWith(mockCpf);
       expect(userRepositoryMock.create).toHaveBeenCalledWith({
@@ -131,7 +131,7 @@ describe("UserService", () => {
       expect(userRepositoryMock.checkUserExistence).toHaveBeenCalledWith(
         userData.email
       );
-      expect(bcrypt.genSalt).toHaveBeenCalledWith(PASSWORD_SALT);
+      expect(bcrypt.genSalt).toHaveBeenCalledWith(parseInt(PASSWORD_SALT));
       expect(bcrypt.hash).toHaveBeenCalledWith(mockPassword, "salt");
       expect(formatCnpj).toHaveBeenCalledWith(mockCnpj);
       expect(userRepositoryMock.create).toHaveBeenCalledWith({
