@@ -47,11 +47,6 @@ class BaseRepository {
     return aggregatedPipeline;
   }
 
-  /**
-   * @param {string} id Id do objeto
-   * @param {Boolean} [active = true] se vou pegar ou não elementos deletados,
-   * Se for false, mesmo elementos removidos serão exibidos.
-   */
   async $getById(id, active = true, populate = null) {
     let finalIdFormat = id;
 

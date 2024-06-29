@@ -28,7 +28,7 @@ class UserService {
         throw new Error("Invalid password.");
       }
 
-      const saltRounds = await bcrypt.genSalt(PASSWORD_SALT);
+      const saltRounds = await bcrypt.genSalt(parseInt(PASSWORD_SALT));
       const hashedPassword = await bcrypt.hash(data?.password, saltRounds);
 
       if (data.cpf) {
