@@ -68,6 +68,31 @@ describe("HelpController", () => {
     });
   });
 
+  describe("getHelps", () => {
+    test("should get all helps with success", async () => {
+      const mockHelps = [mockHelp];
+      HelpService.prototype.getHelps.mockResolvedValueOnce(mockHelps);
+
+      await helpController.getHelps(mockRequest, mockResponse, mockNext);
+
+      expect(mockResponse.status).toHaveBeenCalledWith(200);
+      expect(mockResponse.json).toHaveBeenCalledWith(mockHelps);
+      expect(mockNext).toHaveBeenCalled();
+    });
+
+    test("should return status 400 on error", async () => {
+      HelpService.prototype.getHelps.mockRejectedValueOnce(
+        new Error("Test error")
+      );
+
+      await helpController.getHelps(mockRequest, mockResponse, mockNext);
+
+      expect(mockResponse.status).toHaveBeenCalledWith(400);
+      expect(mockResponse.json).toHaveBeenCalledWith({ error: "Test error" });
+      expect(mockNext).toHaveBeenCalled();
+    });
+  });
+
   describe("getUserHelps", () => {
     test("should get user's helps with success", async () => {
       const mockHelps = [mockHelp];
@@ -200,6 +225,129 @@ describe("HelpController", () => {
       mockRequest.query.statusList = "waiting,on_going";
 
       await helpController.getHelpListByStatus(
+        mockRequest,
+        mockResponse,
+        mockNext
+      );
+
+      expect(mockResponse.status).toHaveBeenCalledWith(400);
+      expect(mockResponse.json).toHaveBeenCalledWith({ error: "Test error" });
+      expect(mockNext).toHaveBeenCalled();
+    });
+  });
+
+  describe("addPossibleHelpers", () => {
+    test("should add possible helpers with success", async () => {
+      HelpService.prototype.addPossibleHelpers.mockResolvedValueOnce(mockHelp);
+      mockRequest.body = { helpId: 1, helperId: 2 };
+
+      await helpController.addPossibleHelpers(
+        mockRequest,
+        mockResponse,
+        mockNext
+      );
+
+      expect(mockResponse.status).toHaveBeenCalledWith(201);
+      expect(mockResponse.json).toHaveBeenCalledWith(mockHelp);
+      expect(mockNext).toHaveBeenCalled();
+    });
+
+    test("should return status 400 on error", async () => {
+      HelpService.prototype.addPossibleHelpers.mockRejectedValueOnce(
+        new Error("Test error")
+      );
+
+      await helpController.addPossibleHelpers(
+        mockRequest,
+        mockResponse,
+        mockNext
+      );
+
+      expect(mockResponse.status).toHaveBeenCalledWith(400);
+      expect(mockResponse.json).toHaveBeenCalledWith({ error: "Test error" });
+      expect(mockNext).toHaveBeenCalled();
+    });
+  });
+
+  describe("chooseHelper", () => {
+    test("should choose helper with success", async () => {
+      HelpService.prototype.chooseHelper.mockResolvedValueOnce(mockHelp);
+      mockRequest.body = { helpId: 1, helperId: 2 };
+
+      await helpController.chooseHelper(mockRequest, mockResponse, mockNext);
+
+      expect(mockResponse.status).toHaveBeenCalledWith(201);
+      expect(mockResponse.json).toHaveBeenCalledWith(mockHelp);
+      expect(mockNext).toHaveBeenCalled();
+    });
+
+    test("should return status 400 on error", async () => {
+      HelpService.prototype.chooseHelper.mockRejectedValueOnce(
+        new Error("Test error")
+      );
+
+      await helpController.chooseHelper(mockRequest, mockResponse, mockNext);
+
+      expect(mockResponse.status).toHaveBeenCalledWith(400);
+      expect(mockResponse.json).toHaveBeenCalledWith({ error: "Test error" });
+    });
+  });
+
+  describe("helperConfirmation", () => {
+    test("should confirm helper with success", async () => {
+      HelpService.prototype.helperConfirmation.mockResolvedValueOnce(mockHelp);
+      mockRequest.body = { helpId: 1, helperId: 2 };
+
+      await helpController.helperConfirmation(
+        mockRequest,
+        mockResponse,
+        mockNext
+      );
+
+      expect(mockResponse.status).toHaveBeenCalledWith(200);
+      expect(mockResponse.json).toHaveBeenCalledWith(mockHelp);
+      expect(mockNext).toHaveBeenCalled();
+    });
+
+    test("should return status 400 on error", async () => {
+      HelpService.prototype.helperConfirmation.mockRejectedValueOnce(
+        new Error("Test error")
+      );
+
+      await helpController.helperConfirmation(
+        mockRequest,
+        mockResponse,
+        mockNext
+      );
+
+      expect(mockResponse.status).toHaveBeenCalledWith(400);
+      expect(mockResponse.json).toHaveBeenCalledWith({ error: "Test error" });
+      expect(mockNext).toHaveBeenCalled();
+    });
+  });
+
+  describe("ownerConfirmation", () => {
+    test("should confirm owner with success", async () => {
+      HelpService.prototype.ownerConfirmation.mockResolvedValueOnce(mockHelp);
+      mockRequest.body = { helpId: 1, ownerId: 1 };
+
+      await helpController.ownerConfirmation(
+        mockRequest,
+        mockResponse,
+        mockNext
+      );
+
+      expect(mockResponse.status).toHaveBeenCalledWith(200);
+      expect(mockResponse.json).toHaveBeenCalledWith(mockHelp);
+      expect(mockNext).toHaveBeenCalled();
+    });
+
+    test("should return status 400 on error", async () => {
+      HelpService.prototype.ownerConfirmation.mockRejectedValueOnce(
+        new Error("Test error")
+      );
+
+      await helpController.ownerConfirmation(
         mockRequest,
         mockResponse,
         mockNext
