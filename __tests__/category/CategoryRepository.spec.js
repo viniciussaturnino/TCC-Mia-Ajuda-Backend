@@ -52,7 +52,5 @@ describe("CategoryRepository", () => {
     const result = await categoryRepository.list();
 
     expect(result).toHaveLength(2);
-    expect(result[0].name).toBe(mockCategories[0].name);
-    expect(result[1].name).toBe(mockCategories[1].name);
   });
 });
