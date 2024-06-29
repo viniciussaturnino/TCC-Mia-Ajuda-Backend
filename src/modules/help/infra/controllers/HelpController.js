@@ -22,6 +22,11 @@ class HelpController {
     }
   }
 
+  async getHelps(_req, res, next) {
+    // TDD: to be implemented
+    return null;
+  }
+
   async getUserHelps(req, res, next) {
     try {
       const userId = req.user.id;
@@ -119,6 +124,26 @@ class HelpController {
       res.status(400).json({ error: err.message });
       next();
     }
+  }
+
+  async addPossibleHelpers(req, res, next) {
+    // TDD: to be implemented
+    return null;
+  }
+
+  async chooseHelper(req, res, next) {
+    // TDD: to be implemented
+    return null;
+  }
+
+  async helperConfirmation(req, res, next) {
+    // TDD: to be implemented
+    return null;
+  }
+
+  async ownerConfirmation(req, res, next) {
+    // TDD: to be implemented
+    return null;
   }
 }
 

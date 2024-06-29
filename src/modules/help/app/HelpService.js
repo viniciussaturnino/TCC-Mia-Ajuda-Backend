@@ -56,6 +56,11 @@ class HelpService {
     return help;
   }
 
+  async getHelps() {
+    // TDD: to be implemented
+    return null;
+  }
+
   async getWaitingList(coords, ownerId, categoryArray) {
     const helplist = await this.helpRepository.getWaitingList(
       coords,
@@ -94,6 +99,26 @@ class HelpService {
     );
 
     return helpList;
+  }
+
+  async addPossibleHelpers(helpId, helperId) {
+    // TDD: to be implemented
+    return null;
+  }
+
+  async chooseHelper(helpId, helperId) {
+    // TDD: to be implemented
+    return null;
+  }
+
+  async helperConfirmation(helpId, helperId) {
+    // TDD: to be implemented
+    return null;
+  }
+
+  async ownerConfirmation(helpId, ownerId) {
+    // TDD: to be implemented
+    return null;
   }
 }
 
