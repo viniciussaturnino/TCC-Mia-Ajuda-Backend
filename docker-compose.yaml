@@ -3,13 +3,21 @@ services:
   mongo:
     container_name: mongo
     image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=miaAjudaDB
 
   tcc-mia-ajuda-backend:
     container_name: tcc-mia-ajuda-backend
     environment:
       - PORT=3000
       - NODE_ENV=development
-      - DATABASE_URL=mongodb://mongo/miaAjudaDB
+      - DATABASE_URL=mongodb://mongo:27017/miaAjudaDB
+      - JWT_SECRET=${JWT_SECRET}
+      - PASSWORD_SALT=${PASSWORD_SALT}
     build: .
     volumes:
       - .:/app
@@ -17,3 +25,6 @@ services:
       - "3000:3000"
     depends_on:
       - mongo
+
+volumes:
+  mongo-data:
